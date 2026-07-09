@@ -99,9 +99,9 @@ class PrisonStatistic:
         for lines in blocks:
             text = " ".join(lines)
             if "Last Updated On" in text:
-                match = re.search(r"(\d{4}/\d{2}/\d{2})", text)
+                match = re.search(r"(\d{4})/(\d{2})/(\d{2})", text)
                 if match:
-                    date_str = match.group(1)
+                    date_str = "-".join(match.groups())
             elif "Total of all Convicted and Unconvicted" in text:
                 totals = cls._extract_numbers(lines)
             elif "Unconvicted Prisoners Release on bail" in text:
@@ -190,8 +190,7 @@ class PrisonStatistic:
     @property
     def dir_data(self) -> str:
         """Directory ``data/<yyyy-mm-dd>`` for this snapshot's date."""
-        date_dir = self.date_str.replace("/", "-")
-        return os.path.join(DIR_DATA, date_dir)
+        return os.path.join(DIR_DATA, self.date_str)
 
     def save(self, statistics_html: str = "", embed_html: str = "") -> None:
         """Save the parsed data (and any source HTML) to ``data/<yyyy-mm-dd>``."""
