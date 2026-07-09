@@ -1,7 +1,8 @@
 import json
 import logging
 import os
-from dataclasses import asdict, fields
+from dataclasses import asdict
+from datetime import date
 
 from prisons.PrisonStatistic import DIR_DATA, URL_STATISTICS, PrisonStatistic
 
@@ -26,41 +27,40 @@ class ReadMe:
         return prison_statistics
 
     @staticmethod
-    def _humanize(field_name: str) -> str:
-        return field_name.replace("_", " ").title()
-
-    @classmethod
-    def _build_table(cls, prison_statistics: list[PrisonStatistic]) -> str:
-        value_fields = [
-            f.name for f in fields(PrisonStatistic) if f.name != "date_str"
+    def _get_lines_for_header(latest_date_str: str) -> list[str]:
+        latest_badge = latest_date_str.replace("-", "--").replace(" ", "_")
+        update_badge = date.today().isoformat()
+        update_badge = update_badge.replace("-", "--").replace(" ", "_")
+        return [
+            "![Latest Data](https://img.shields.io/badge/"
+            + f"latest_data-{latest_badge}-green)",
+            "![Last Checked](https://img.shields.io/badge/"
+            + f"last_checked-{update_badge}-purple)",
+            "",
         ]
 
-        header = ["Date"] + [cls._humanize(name) for name in value_fields]
-        lines = [
-            "| " + " | ".join(header) + " |",
-            "| " + " | ".join(["---"] * len(header)) + " |",
+    @staticmethod
+    def _get_lines_for_footer() -> list[str]:
+        return [
+            "![Maintainer]"
+            + "(https://img.shields.io/badge/maintainer-nuuuwan-red)",
+            "![MadeWith](https://img.shields.io/badge/made_with-python-blue)",
+            "[![License: MIT]"
+            + "(https://img.shields.io/badge/License-MIT-yellow.svg)]"
+            + "(https://opensource.org/licenses/MIT)",
         ]
-
-        for prison_statistic in sorted(
-            prison_statistics, key=lambda ps: ps.date_str, reverse=True
-        ):
-            data = asdict(prison_statistic)
-            date_str = prison_statistic.date_str
-            date_link = f"[{date_str}]({DIR_DATA}/{date_str})"
-            row = [date_link] + [
-                f"{data[name]:,}" for name in value_fields
-            ]
-            lines.append("| " + " | ".join(row) + " |")
-
-        return "\n".join(lines)
 
     @classmethod
     def build(cls) -> str:
         prison_statistics = cls._load_all()
+        prison_statistics.sort(key=lambda ps: ps.date_str, reverse=True)
 
-        parts = [
-            "# lk_prisons",
-            "",
+        lines = ["# lk_prisons", ""]
+
+        if prison_statistics:
+            lines += cls._get_lines_for_header(prison_statistics[0].date_str)
+
+        lines += [
             "Daily statistical snapshots of Sri Lankan prisons.",
             "",
             "## Source",
@@ -71,22 +71,30 @@ class ReadMe:
             "embedded on that page as a published Google Slides "
             "presentation.",
             "",
-            "## Data",
-            "",
         ]
 
         if prison_statistics:
-            parts.append(
-                f"Snapshots collected: **{len(prison_statistics)}**. "
-                f"Raw data per date is under [{DIR_DATA}/]({DIR_DATA})."
-            )
-            parts.append("")
-            parts.append(cls._build_table(prison_statistics))
+            latest = prison_statistics[0]
+            lines += [
+                f"## Latest Data ({latest.date_str})",
+                "",
+                "```json",
+                json.dumps(asdict(latest), indent=2),
+                "```",
+                "",
+                "## History",
+                "",
+            ]
+            for prison_statistic in prison_statistics:
+                date_str = prison_statistic.date_str
+                lines.append(f"- [{date_str}]({DIR_DATA}/{date_str})")
+            lines.append("")
         else:
-            parts.append("_No data collected yet._")
+            lines += ["## Data", "", "_No data collected yet._", ""]
 
-        parts.append("")
-        return "\n".join(parts)
+        lines += cls._get_lines_for_footer()
+        lines.append("")
+        return "\n".join(lines)
 
     @classmethod
     def update(cls) -> None:
