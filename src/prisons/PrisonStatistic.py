@@ -222,5 +222,9 @@ class PrisonStatistic:
         log.info(f"Fetching {embed_url}")
         embed_html = requests.get(embed_url, timeout=REQUEST_TIMEOUT).text
         prison_statistic = cls.from_html(statistics_html, embed_html)
-        prison_statistic.save(statistics_html, embed_html)
+        # The raw source HTML is intentionally not persisted: the Google
+        # Slides embed page contains Google's own ``AIza...`` API keys, which
+        # trip GitHub secret scanning if committed. All parsed data we need is
+        # written to data.json by ``save()``.
+        prison_statistic.save()
         return prison_statistic

@@ -1,5 +1,8 @@
 .vscode
 .vscode
+# Scraped source HTML (may contain Google's embedded API keys — never commit)
+data/**/*.html
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
