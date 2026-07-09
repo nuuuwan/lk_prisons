@@ -122,7 +122,7 @@ class PrisonStatistic:
                 "Could not parse unconvicted prisoners release on bail."
             )
 
-        return cls(
+        prison_statistic = cls(
             date_str=date_str,
             convicted_male=totals[0],
             convicted_female=totals[1],
@@ -140,6 +140,52 @@ class PrisonStatistic:
             unconvicted_release_on_bail_female=unconvicted_release[1],
             unconvicted_release_on_bail_total=unconvicted_release[2],
         )
+        prison_statistic.validate()
+        return prison_statistic
+
+    def validate(self) -> None:
+        """Check the snapshot is internally consistent.
+
+        Raises ``ValueError`` when any row/column total does not match the
+        sum of its parts.
+        """
+        checks = [
+            # Male + Female == Total (rows).
+            ("convicted M+F", self.convicted_male, self.convicted_female,
+             self.convicted_total),
+            ("unconvicted M+F", self.unconvicted_male, self.unconvicted_female,
+             self.unconvicted_total),
+            ("total M+F", self.total_male, self.total_female,
+             self.total_total),
+            # Convicted + Unconvicted == Total (columns).
+            ("male C+U", self.convicted_male, self.unconvicted_male,
+             self.total_male),
+            ("female C+U", self.convicted_female, self.unconvicted_female,
+             self.total_female),
+            ("total C+U", self.convicted_total, self.unconvicted_total,
+             self.total_total),
+            # Release tables: Male + Female == Total.
+            ("convicted release M+F", self.convicted_release_male,
+             self.convicted_release_female, self.convicted_release_total),
+            ("unconvicted release M+F",
+             self.unconvicted_release_on_bail_male,
+             self.unconvicted_release_on_bail_female,
+             self.unconvicted_release_on_bail_total),
+        ]
+        for name, part_a, part_b, total in checks:
+            if part_a + part_b != total:
+                raise ValueError(
+                    f"Validation failed for {name}: "
+                    f"{part_a} + {part_b} != {total}"
+                )
+
+        for name, value in asdict(self).items():
+            if name == "date_str":
+                continue
+            if value < 0:
+                raise ValueError(
+                    f"Validation failed: {name} is negative ({value})"
+                )
 
     @property
     def dir_data(self) -> str:
@@ -147,9 +193,7 @@ class PrisonStatistic:
         date_dir = self.date_str.replace("/", "-")
         return os.path.join(DIR_DATA, date_dir)
 
-    def save(
-        self, statistics_html: str = "", embed_html: str = ""
-    ) -> None:
+    def save(self, statistics_html: str = "", embed_html: str = "") -> None:
         """Save the parsed data (and any source HTML) to ``data/<yyyy-mm-dd>``."""
         os.makedirs(self.dir_data, exist_ok=True)
 
