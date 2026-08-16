@@ -1,7 +1,7 @@
 # lk_prisons
 
 ![Latest Data](https://img.shields.io/badge/latest_data-2026--08--14-green)
-![Last Checked](https://img.shields.io/badge/last_checked-2026--08--15-purple)
+![Last Checked](https://img.shields.io/badge/last_checked-2026--08--16-purple)
 
 Daily statistical snapshots of Sri Lankan prisons.
 
