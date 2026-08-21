@@ -1,6 +1,6 @@
 # lk_prisons
 
-![Latest Data](https://img.shields.io/badge/latest_data-2026--08--20-green)
+![Latest Data](https://img.shields.io/badge/latest_data-2026--08--21-green)
 ![Last Checked](https://img.shields.io/badge/last_checked-2026--08--21-purple)
 
 Daily statistical snapshots of Sri Lankan prisons.
@@ -9,32 +9,32 @@ Daily statistical snapshots of Sri Lankan prisons.
 
 Data is scraped from the daily snapshot published by the Sri Lanka Department of Prisons at [http://prisons.gov.lk/web/en/statistics-information-en/](http://prisons.gov.lk/web/en/statistics-information-en/). The snapshot is embedded on that page as a published Google Slides presentation.
 
-## Latest Data (2026-08-20)
+## Latest Data (2026-08-21)
 
 ```json
 {
-  "date_str": "2026-08-20",
-  "convicted_male": 10265,
-  "convicted_female": 255,
-  "convicted_total": 10520,
-  "unconvicted_male": 26572,
-  "unconvicted_female": 1743,
-  "unconvicted_total": 28315,
-  "total_male": 36837,
-  "total_female": 1998,
-  "total_total": 38835,
-  "convicted_release_male": 156,
-  "convicted_release_female": 5,
-  "convicted_release_total": 161,
-  "unconvicted_release_on_bail_male": 327,
-  "unconvicted_release_on_bail_female": 20,
-  "unconvicted_release_on_bail_total": 347
+  "date_str": "2026-08-21",
+  "convicted_male": 10319,
+  "convicted_female": 260,
+  "convicted_total": 10579,
+  "unconvicted_male": 26338,
+  "unconvicted_female": 1758,
+  "unconvicted_total": 28096,
+  "total_male": 36657,
+  "total_female": 2018,
+  "total_total": 38675,
+  "convicted_release_male": 134,
+  "convicted_release_female": 2,
+  "convicted_release_total": 136,
+  "unconvicted_release_on_bail_male": 306,
+  "unconvicted_release_on_bail_female": 26,
+  "unconvicted_release_on_bail_total": 332
 }
 ```
 
 ## Charts
 
-All charts below describe the prison population and releases recorded on **2026-08-20**.
+All charts below describe the prison population and releases recorded on **2026-08-21**.
 
 ### Population: Convicted vs Unconvicted
 
@@ -43,8 +43,8 @@ How the total prison population splits between people already **convicted** of a
 ```mermaid
 %%{init: {'themeVariables': {'pie1': '#E53935', 'pie2': '#FFB300'}}}%%
 pie showData title Population: Convicted vs Unconvicted
-    "Convicted" : 10520
-    "Unconvicted" : 28315
+    "Convicted" : 10579
+    "Unconvicted" : 28096
 ```
 
 ### Population: Male vs Female
@@ -54,8 +54,8 @@ The gender split across the entire prison population (convicted and unconvicted 
 ```mermaid
 %%{init: {'themeVariables': {'pie1': '#2196F3', 'pie2': '#EC407A'}}}%%
 pie showData title Population: Male vs Female
-    "Male" : 36837
-    "Female" : 1998
+    "Male" : 36657
+    "Female" : 2018
 ```
 
 ### Convicted Population by Gender
@@ -65,8 +65,8 @@ The gender split among **convicted** prisoners only.
 ```mermaid
 %%{init: {'themeVariables': {'pie1': '#2196F3', 'pie2': '#EC407A'}}}%%
 pie showData title Convicted Population by Gender
-    "Male" : 10265
-    "Female" : 255
+    "Male" : 10319
+    "Female" : 260
 ```
 
 ### Unconvicted Population by Gender
@@ -76,8 +76,8 @@ The gender split among **unconvicted** (remand) prisoners only.
 ```mermaid
 %%{init: {'themeVariables': {'pie1': '#2196F3', 'pie2': '#EC407A'}}}%%
 pie showData title Unconvicted Population by Gender
-    "Male" : 26572
-    "Female" : 1743
+    "Male" : 26338
+    "Female" : 1758
 ```
 
 ### Releases: Released vs Bail
@@ -87,8 +87,8 @@ Of the prisoners leaving custody on this day, how many were **released** after s
 ```mermaid
 %%{init: {'themeVariables': {'pie1': '#43A047', 'pie2': '#FFB74D'}}}%%
 pie showData title Releases: Released vs Bail
-    "Released (Convicted)" : 161
-    "Released on Bail (Unconvicted)" : 347
+    "Released (Convicted)" : 136
+    "Released on Bail (Unconvicted)" : 332
 ```
 
 ### Convicted Releases by Gender
@@ -98,8 +98,8 @@ The gender split among convicted prisoners **released** on this day.
 ```mermaid
 %%{init: {'themeVariables': {'pie1': '#2196F3', 'pie2': '#EC407A'}}}%%
 pie showData title Convicted Releases by Gender
-    "Male" : 156
-    "Female" : 5
+    "Male" : 134
+    "Female" : 2
 ```
 
 ### Bail Releases by Gender
@@ -109,12 +109,13 @@ The gender split among unconvicted prisoners **released on bail** on this day.
 ```mermaid
 %%{init: {'themeVariables': {'pie1': '#2196F3', 'pie2': '#EC407A'}}}%%
 pie showData title Bail Releases by Gender
-    "Male" : 327
-    "Female" : 20
+    "Male" : 306
+    "Female" : 26
 ```
 
 ## History
 
+- [2026-08-21](data/2026-08-21)
 - [2026-08-20](data/2026-08-20)
 - [2026-08-19](data/2026-08-19)
 - [2026-08-18](data/2026-08-18)
