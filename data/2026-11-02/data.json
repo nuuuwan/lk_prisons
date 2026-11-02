@@ -1,0 +1,18 @@
+{
+  "date_str": "2026-11-02",
+  "convicted_male": 10864,
+  "convicted_female": 292,
+  "convicted_total": 11156,
+  "unconvicted_male": 23042,
+  "unconvicted_female": 1594,
+  "unconvicted_total": 24636,
+  "total_male": 33906,
+  "total_female": 1886,
+  "total_total": 35792,
+  "convicted_release_male": 0,
+  "convicted_release_female": 0,
+  "convicted_release_total": 0,
+  "unconvicted_release_on_bail_male": 0,
+  "unconvicted_release_on_bail_female": 0,
+  "unconvicted_release_on_bail_total": 0
+}
